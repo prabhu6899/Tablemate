@@ -1,0 +1,324 @@
+<apex:page showHeader="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0" controller="HW_MyLeadController">
+    <apex:composition template="HW_ChannelTemplate">
+        <apex:define name="pageTitle">Leads</apex:define>
+        <apex:define name="activeTabId">leads-link</apex:define>
+        <apex:define name="body">
+            <apex:form >
+            <!-- START : Page Section Header-->
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 headline">
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-11 col-xs-11 supportHome">
+                            <h1><img class="leadImg"  id="ulead_img" src="/s.gif" />  Lead</h1>
+                        </div>
+                    </div>
+                    <div class="row hidden-sm hidden-xs">
+                        <!--  <div class="col-lg-12">     
+                            <img class="pageIcon home" id="u13_img" src="{!URLFOR($Resource.HW_ChannelDashboard, 'images/pageIconsHome.png')}" />
+                        </div> -->
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 welcomeMessage">
+                    <!-- <h2 style="margin-bottom: 20px;">Welcome to the Partner Community</h2> -->
+                    <div class="row">
+                        <!--
+                            <div class="hidden-md hidden-lg col-sm-12 col-xs-12 submitBtnBlock">
+                                <DIV class="ax_shape" id="u4" style="cursor: pointer;">
+                                    <IMG class="img " id="u4_img" src="{!URLFOR($Resource.HW_ChannelDashboard, 'images/u4.png')}" style="width: 173px;" />
+                                    <DIV class="text" id="u5" style="left: 7px">
+                                        <P><SPAN><a class="customize">CUSTOMIZE MY DASHBOARD</a></SPAN></P>
+                                    </DIV>
+                                </DIV> 
+                            </div> 
+                        -->
+                        <!--   <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2 viewByBlock">
+                            <span>View By</span>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-10 col-xs-10 viewByBlockSelect">
+                           <DIV class="ax_droplist selectpicker" data-label="picklist-cases" id="u104">
+                                <SELECT id="u104_input" onchange="casesPicklist(value); refreshmyCharts();">
+                                    <OPTION value="My Information">My Information</OPTION>
+                                    <OPTION value="Information by Site">Information by Site</OPTION>
+                                    <OPTION value="All Company Information">All Company Information</OPTION>
+                                </SELECT>
+                            </DIV>
+                        </div> -->
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 secondDrop"></div>
+                        <!--   <div class="hidden-sm hidden-xs col-md-3 col-lg-3 submitBtnBlock customize">
+                            <DIV class="ax_shape" id="u4a" style="cursor: pointer;">
+                                <IMG class="img " id="u4_img" src="{!URLFOR($Resource.HW_ChannelDashboard, 'images/u4.png')}" style="width: 173px;" />
+                                <DIV class="text" id="u5" style="left: 7px">
+                                    <P><SPAN><a class="customize">CUSTOMIZE MY DASHBOARD</a></SPAN></P>
+                                </DIV>
+                            </DIV>
+                        </div>
+                    </div>  -->
+                    </div>
+                </div>
+            </div>
+            <!-- END : Page Section Header-->
+        
+            <div class="row casecreate-stack" style="position: relative; bottom: 30px;&gt; &lt;DIV class=">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <!-- START : Sidebar Section-->
+                        <div class="hidden-sm hidden-xs col-md-2 col-lg-2 dashLeftCol" style="margin-top: -20px;">
+                            
+                            <div class="viewByBlockSelect">
+                              <div class="ax_droplist selectpicker" data-label="picklist-cases" id="u104" style="width: 200px;">
+                                    <select id="u104_input"   class="picklist"  disabled="true"  onchange="casesPicklist(value);">
+                                        <option value="#" disabled="true" selected ="true">New</option>
+                                        <option value="{!CreateLead}">Lead</option>
+                                        <!-- <option value="../00Q/e">Lead</option> -->
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="ax_paragraph leftColBlock">
+                                <div class="text">
+                                    <div class="hidden-sm hidden-xs col-md-2 col-lg-2 dashLeftCol">
+                                        <div class="ax_paragraph leftColBlock">
+                                            <!--[DD] START | T-499857 : Lead Landing Page Sidebar Sections -->
+                                            <c:quickLinks headerTitle="Lead Quick Links" p_parentPage="leads-link"  paramCSV="{!ParentAccountName},{!CurrentUserAccountId}" linksToDisplayCSV="HON_Contacts,Recent_Docs,iasset" />
+                                            <!--[DD] END | T-499857 : Lead Landing Page Sidebar Sections -->
+                                        </div>
+                                        <div class="ax_paragraph leftColBlock" id="u255">
+                                            <!--[DD] START | T-499857 : Lead Landing Page Sidebar Sections -->
+                                            <c:recentItems p_parentPage="leads-link" headerTitle="Lead Recent Items" objectName="Lead"/>
+                                            <!--[DD] END | T-499857 : Lead Landing Page Sidebar Sections -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ax_paragraph leftColBlock">
+                                <div class="text"></div>
+                            </div>
+                        </div>
+                        <!-- END : Sidebar Section-->
+                        
+                        <div class="col-lg-1 col-md-1 hidden-sm hidden-xs"></div>
+                        
+                        <!-- START : Main Section-->
+                        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9 dashRightCol">
+                            <!-- graphs -->
+                            <div class="reports">
+                                <!-- START : Graph Section-->
+                                <div class="col-md-12" style="margin-bottom: 20px;">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <!--[DD] START | T-500277 : Lead Landing Page Dashboard Sections -->
+                                            <c:reportWidget headerTitle="Lead Open by Time" reportName="Lead Open by Time" size="small"/>
+                                            <!--[DD] END | T-500277 : Lead Landing Page Dashboard Sections -->
+                                        </div>
+                                     <!--  <div class="col-sm-5">
+                                             
+                                            <c:reportWidget headerTitle="Oppty Sum Report" reportName="Oppty Sum Report" size="small"/>
+                                           
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <c:reportWidget headerTitle="Won / Converted Lead $ Values" reportName="Won / Converted Lead $ Values" size="small"/>
+                                            <!--[DD] END | T-500277 : Lead Landing Page Dashboard Sections 
+                                        </div>-->
+                                        <div class="col-sm-5">
+                                              Go to report:<apex:outputLink value="/{!$Label.Opportunity_Graph}" >Booked/Won Opportunity</apex:outputLink>
+                                           <br/>Go to report:<apex:outputLink value="/{!$Label.Lead_Graph}" >Lead less than 25K</apex:outputLink>
+                                           
+                                            <!--[DD] START | T-500277 : Lead Landing Page Dashboard Sections -->
+                                            <c:HW_oppLead />
+                                            <!--[DD] END | T-500277 : Lead Landing Page Dashboard Sections -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END : Graph Section-->
+                                
+                                <div class="row" style="padding-top:28px;"></div>
+                                
+                                <!-- START : Related List Section-->
+                                <!--Newest Leads (Last 7 Days)-->
+                                <div class="row">
+                                    <div id="NewestLead" style="margin-bottom: -45px;">
+                                        <div id="reports">
+                                        <div class="row dashSectHead">
+                                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 dashTab">
+                                                <div><img src="/s.gif" onclick="twistSection(this,'newestLeads_List');" onkeypress="if (event.keyCode=='13')twistSection(this,'newestLeads_List');" style="cursor:pointer;" class="hideListButton"   />
+                                                Newest Leads (Last 7 Days)</div>
+                                            </div>
+                                            <!--<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 viewAllLink">
+                                                <a class="dashViewAllLink" id="NewRequest" onclick="viewallmycharts();" target="_self">VIEW ALL</a>
+                                            </div>-->
+                                        </div>
+                                        <div class="row dashSectBody reports">
+                                            <span></span>
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <span></span>
+                                                <div class="table-responsive" id = "newestLeads_List">
+                                                    <span></span>
+                                                    <c:Related_List p_objectName="Lead" 
+                                                      p_fieldsCSV="Name,Company,Status,OwnerId,CreatedDate" 
+                                                      p_pageSize="10"
+                                                      p_orderByFieldName="CreatedDate" 
+                                                      p_sortDirection="desc"
+                                                      p_filter="Lead_Age__c <= 7 AND Status IN ('Automation Qualified Lead (AQL)','Marketing Qualified Lead (MQL)','Sales Accepted Lead (SAL)','Sales Qualified Lead (SQL)') AND IsConverted = FALSE"
+                                                     
+                                                      p_title="Newest Leads (Last 7 Days)"
+                                                      p_showAsStandardRelatedList="false"
+                                                      p_hideActionLinks="true"
+                                                      p_hideButtons="true"/>  
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row" style="padding-top:28px;"></div>
+                                
+                                <!--All Open Leads > 7 Days Old-->
+                                <div class="row">
+                                    <div id="OpenLeads" style="margin-bottom: -45px;">
+                                        <div id="reports">
+                                        <div class="row dashSectHead">
+                                            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 dashTab">
+                                                <div><img src="/s.gif" onclick="twistSection(this,'all_open_Leads_List');" onkeypress="if (event.keyCode=='13')twistSection(this,'all_open_Leads_List');" style="cursor:pointer;" class="hideListButton"   />
+                                                All Open Leads > 7 Days Old</div>
+                                            </div>
+                                        </div>
+                                        <div class="row dashSectBody reports">
+                                            <span></span>
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <span></span>
+                                                <div class="table-responsive" id= "all_open_Leads_List">
+                                                    <span></span>
+                                                    <c:Related_List p_objectName="Lead" 
+                                                      p_fieldsCSV="Name,Company,Status,OwnerId,CreatedDate" 
+                                                      p_pageSize="10"
+                                                      p_orderByFieldName="CreatedDate" 
+                                                      p_sortDirection="desc"
+                                                      p_filter=" (Lead_Age__c >7) AND Status IN ('Automation Qualified Lead (AQL)','Marketing Qualified Lead (MQL)','Sales Accepted Lead (SAL)','Sales Qualified Lead (SQL)') AND IsConverted = FALSE"
+                                                      p_title="All Open Leads > 7 Days Old"
+                                                      p_showAsStandardRelatedList="false"
+                                                      p_hideActionLinks="true"
+                                                      p_hideButtons="true"/> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="row" style="padding-top:28px;"></div>
+                                
+                                <!--Promotions List-->
+                                <div class="row">
+                                    <div id="MyLeads" style="margin-bottom: -45px;">
+                                        <div id="reports">
+                                        <div class="row dashSectHead">
+                                            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 dashTab">
+                                                <div><img src="/s.gif" onclick="twistSection(this,'leads_I_created_List');" onkeypress="if (event.keyCode=='13')twistSection(this,'leads_I_created_List');" style="cursor:pointer;" class="hideListButton"   />
+                                                Closed Leads Current Year</div>
+                                            </div>
+                                        </div>
+                                        <div class="row dashSectBody reports">
+                                            <span></span>
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <span></span>
+                                                <div class="table-responsive" id = "leads_I_created_List">
+                                                    <span></span>
+                                                    <c:Related_List p_objectName="Lead" 
+                                                      p_fieldsCSV="Name,Company,Status,Partner_Contact__c,CreatedDate" 
+                                                      p_pageSize="10"
+                                                      p_orderByFieldName="CreatedDate" 
+                                                      p_sortDirection="desc"
+                                                      p_filter="Status IN ('Closed - Won','Closed - Not Won','Disqualified')AND IsConverted = False AND PartnerAccount != NULL"
+                                                      p_title="Closed Leads Current Year"
+                                                      p_showAsStandardRelatedList="false"
+                                                      p_hideActionLinks="true"
+                                                      p_hideButtons="true"/> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                <!-- END : Related List Section-->
+
+                            </div>
+                        </div>
+                        <!-- END : Sidebar Section-->
+                        <div class="hidden-lg hidden-md col-sm-12 dashLeftCol">
+                            <div class="ax_paragraph leftColBlock">
+                                <div class="text"></div>
+                            </div>
+                            <div class="ax_paragraph leftColBlock">
+                                <div class="text"></div>
+                            </div>
+                        </div>
+                        <!-- START: Added by kamal sharma for quickLink on small screens (T-505114)-->
+                        <div class="hidden-lg dashLeftCol" style="margin-top: -20px;">
+                            <div class="ax_paragraph">
+                                <div class="text">
+                                    <div class="hidden-lg  dashLeftCol">
+                                        <div class="ax_paragraph">
+                                            <!--[DD] START | T-499857 : Lead Landing Page Sidebar Sections -->
+                                            <c:quickLinks headerTitle="Lead Quick Links" p_parentPage="leads-link"  paramCSV="{!ParentAccountName},{!CurrentUserAccountId}" linksToDisplayCSV="HON_Contacts,Recent_Docs,iasset" />
+                                            <!--[DD] END | T-499857 : Lead Landing Page Sidebar Sections -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END: Added by kamal sharma for quickLink on small screens (T-505114)-->
+                    </div>
+                </div>
+            </div>
+            </apex:form>
+        </apex:define>
+    </apex:composition>
+    <style>
+    th.colClass1 {
+        width : 40%;
+        max-width : 40%;
+        white-space: pre-line;
+    } 
+    th.colClass2 {
+        width : 10%;
+        max-width : 10%;
+        white-space: pre-line;
+    } 
+    th.colClass3 {
+        width : 10%;
+        max-width : 10%;
+        white-space: pre-line;
+    } 
+    th.colClass4 {
+        width : 20%;
+        max-width : 20%;
+        white-space: pre-line;
+    } 
+    th.colClass5 {
+        width : 2%;
+        max-width : 20%;
+        white-space: pre-line;
+    } 
+    td.colClass5 {
+        width : 10%;
+        max-width : 10%;
+        white-space: pre-line;
+    } 
+    .table-responsive table{
+        table-layout: fixed;
+    }
+    .list .headerRow th {
+         white-space: pre-line;
+          width : 10%;
+    }
+    </style>
+       <script>
+      //START: Added by Aashish Sajwan for I-222728
+           console.log('Test1 log2 ');
+           $('.picklist').removeAttr('disabled');
+             
+           //End: Added by Aashish Sajwan for I-222728
+            </script>
+    
+</apex:page>
+                                        
